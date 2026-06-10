@@ -392,18 +392,15 @@ You can login after admin approval.`
   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,20}$/;
 
 if (!passwordRegex.test(newPassword)) {
-  alert(
-    "Password must be 8-20 characters and contain:\n\n" +
-    "• 1 Uppercase letter\n" +
-    "• 1 Lowercase letter\n" +
-    "• 1 Number\n" +
-    "• 1 Special Character"
-  );
+  setPasswordError(
+  "Password must be 8-20 characters and contain: 1 uppercase, 1 lowercase, 1 number and 1 special character."
+);
+return;
   return;
 }
 
 if (newPassword !== confirmPassword) {
-  alert("Passwords do not match");
+ setPasswordError("Passwords do not match");
   return;
 }
 
