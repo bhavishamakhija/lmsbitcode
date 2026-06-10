@@ -17,6 +17,7 @@ const [forgotPhone, setForgotPhone] = useState("");
 const [otp, setOtp] = useState("");
 const [newPassword, setNewPassword] = useState("");
 const [confirmPassword, setConfirmPassword] = useState("");
+const [passwordError, setPasswordError] = useState("");
   // ========== STUDENT DETAILS (from UI) ==========
   const [firstName, setFirstName] = useState("");
   const [middleName, setMiddleName] = useState("");
@@ -378,20 +379,35 @@ You can login after admin approval.`
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
           />
-
+            {passwordError && (
+  <p className="error-message">
+    {passwordError}
+  </p>
+)}
           <button
             type="button"
             className="form-submit-btn"
             onClick={() => {
-              if (newPassword.length < 8) {
-                alert("Password must be at least 8 characters");
-                return;
-              }
+             const passwordRegex =
+  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,20}$/;
 
-              if (newPassword !== confirmPassword) {
-                alert("Passwords do not match");
-                return;
-              }
+if (!passwordRegex.test(newPassword)) {
+  alert(
+    "Password must be 8-20 characters and contain:\n\n" +
+    "• 1 Uppercase letter\n" +
+    "• 1 Lowercase letter\n" +
+    "• 1 Number\n" +
+    "• 1 Special Character"
+  );
+  return;
+}
+
+if (newPassword !== confirmPassword) {
+  alert("Passwords do not match");
+  return;
+}
+
+setForgotStep(4);
 
               setForgotStep(4);
             }}

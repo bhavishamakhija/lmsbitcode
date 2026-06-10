@@ -372,3 +372,10 @@ body{
     color: #ea4335;
     font-weight: 800;
 }
+.error-message {
+  color: #ff4d4f;
+  font-size: 13px;
+  margin-top: 8px;
+  text-align: left;
+  font-weight: 500;
+}
