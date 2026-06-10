@@ -10,7 +10,13 @@ function App() {
   // Login states
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [forgotPassword, setForgotPassword] = useState(false);
+const [forgotStep, setForgotStep] = useState(1);
 
+const [forgotPhone, setForgotPhone] = useState("");
+const [otp, setOtp] = useState("");
+const [newPassword, setNewPassword] = useState("");
+const [confirmPassword, setConfirmPassword] = useState("");
   // ========== STUDENT DETAILS (from UI) ==========
   const [firstName, setFirstName] = useState("");
   const [middleName, setMiddleName] = useState("");
@@ -238,45 +244,185 @@ You can login after admin approval.`
 
         {/* LOGIN PANEL */}
         <div className={`form-view-panel ${formType === "login" ? "active" : "inactive"}`}>
-          <div className="card-header">
-            <h1 className="form-view-title">LOGIN</h1>
-            <p className="subtitle">Welcome back! Please enter credentials to access your account.</p>
-          </div>
 
-          <form onSubmit={handleLogin} className="minimalist-form-layout">
-            <div className="form-group-line">
-              <input
-                type="email"
-                placeholder="Email Address"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
-            </div>
+  {!forgotPassword ? (
 
-            <div className="form-group-line">
-              <input
-                type="password"
-                placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
-            </div>
+    <>
+      <div className="card-header">
+        <h1 className="form-view-title">LOGIN</h1>
+        <p className="subtitle">
+          Welcome back! Please enter credentials to access your account.
+        </p>
+      </div>
 
-            <div className="action-footer-row">
-              <p className="forgot">Forgot Password?</p>
-              <button type="submit" className="form-submit-btn">LOGIN</button>
-            </div>
+      <form onSubmit={handleLogin} className="minimalist-form-layout">
 
-            <div className="inline-social-divider">
-              <span className="social-text">Or Login with</span>
-              <button type="button" className="social-provider-btn">
-                <span className="g-icon">G</span> Google
-              </button>
-            </div>
-          </form>
+        <div className="form-group-line">
+          <input
+            type="email"
+            placeholder="Email Address"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
         </div>
+
+        <div className="form-group-line">
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+        </div>
+
+        <div className="action-footer-row">
+          <p
+            className="forgot"
+            style={{ cursor: "pointer" }}
+            onClick={() => {
+              setForgotPassword(true);
+              setForgotStep(1);
+            }}
+          >
+            Forgot Password?
+          </p>
+
+          <button type="submit" className="form-submit-btn">
+            LOGIN
+          </button>
+        </div>
+      </form>
+    </>
+
+  ) : (
+
+    <div className="minimalist-form-layout">
+
+      {forgotStep === 1 && (
+        <>
+          <h2>Forgot Password</h2>
+
+          <input
+            type="tel"
+            placeholder="Registered Mobile Number"
+            value={forgotPhone}
+            maxLength={10}
+            onChange={(e) =>
+              setForgotPhone(e.target.value.replace(/\D/g, ""))
+            }
+          />
+
+          <button
+            type="button"
+            className="form-submit-btn"
+            onClick={() => {
+              if (forgotPhone.length !== 10) {
+                alert("Enter valid 10 digit phone number");
+                return;
+              }
+              setForgotStep(2);
+            }}
+          >
+            Send OTP
+          </button>
+        </>
+      )}
+
+      {forgotStep === 2 && (
+        <>
+          <h2>Verify OTP</h2>
+
+          <input
+            type="text"
+            placeholder="Enter OTP"
+            value={otp}
+            maxLength={6}
+            onChange={(e) =>
+              setOtp(e.target.value.replace(/\D/g, ""))
+            }
+          />
+
+          <button
+            type="button"
+            className="form-submit-btn"
+            onClick={() => {
+              if (otp.length !== 6) {
+                alert("OTP must be 6 digits");
+                return;
+              }
+
+              setForgotStep(3);
+            }}
+          >
+            Verify OTP
+          </button>
+        </>
+      )}
+
+      {forgotStep === 3 && (
+        <>
+          <h2>Create New Password</h2>
+
+          <input
+            type="password"
+            placeholder="New Password"
+            value={newPassword}
+            onChange={(e) => setNewPassword(e.target.value)}
+          />
+
+          <input
+            type="password"
+            placeholder="Confirm Password"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+          />
+
+          <button
+            type="button"
+            className="form-submit-btn"
+            onClick={() => {
+              if (newPassword.length < 8) {
+                alert("Password must be at least 8 characters");
+                return;
+              }
+
+              if (newPassword !== confirmPassword) {
+                alert("Passwords do not match");
+                return;
+              }
+
+              setForgotStep(4);
+            }}
+          >
+            Reset Password
+          </button>
+        </>
+      )}
+
+      {forgotStep === 4 && (
+        <>
+          <h2>Password Changed Successfully</h2>
+
+          <button
+            type="button"
+            className="form-submit-btn"
+            onClick={() => {
+              setForgotPassword(false);
+              setForgotStep(1);
+            }}
+          >
+            Return To Login
+          </button>
+        </>
+      )}
+
+    </div>
+
+  )}
+
+</div>
 
         {/* REGISTER PANEL - WITH ALL UI FIELDS */}
         <div className={`form-view-panel register-panel-view ${formType === "register" ? "active" : "inactive"}`}>
