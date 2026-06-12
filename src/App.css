@@ -379,3 +379,26 @@ body{
   text-align: left;
   font-weight: 500;
 }
+.success-envelope {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 20px;
+  margin-bottom: 20px;
+  text-align: center;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+.envelope-icon {
+  font-size: 50px;
+  margin-bottom: 10px;
+}
+
+.success-envelope h3 {
+  margin-bottom: 10px;
+  color: #2d7a46;
+}
+
+.success-envelope p {
+  color: #666;
+  line-height: 1.5;
+}

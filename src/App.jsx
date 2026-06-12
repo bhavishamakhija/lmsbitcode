@@ -12,7 +12,7 @@ function App() {
   const [password, setPassword] = useState("");
   const [forgotPassword, setForgotPassword] = useState(false);
 const [forgotStep, setForgotStep] = useState(1);
-
+const [showSuccessCard, setShowSuccessCard] = useState(false);
 const [forgotPhone, setForgotPhone] = useState("");
 const [otp, setOtp] = useState("");
 const [newPassword, setNewPassword] = useState("");
@@ -127,17 +127,15 @@ const [passwordError, setPasswordError] = useState("");
     }
 
     try {
-      const studentId = generateStudentId();
-      const loginEmail = `${studentId.toLowerCase()}@bitcodelms.com`;
-      const tempPassword = generatePassword();
-      const admissionDate = new Date();
+     const studentId = generateStudentId();
+
+const admissionDate = new Date();
 
       // Save EVERYTHING to pending_registrations
       await addDoc(collection(db, "pending_registrations"), {
         // ===== STUDENT DETAILS =====
         s_id: studentId,
-        login_email: loginEmail,
-        F_name: firstName.trim(),
+        F_name: firstName.trim(),        
         M_name: middleName.trim(),
         L_name: lastName.trim(),
         email: regEmail,
@@ -161,26 +159,14 @@ const [passwordError, setPasswordError] = useState("");
         parent_occupation: trimmedOccupation,
         
         // ===== SYSTEM FIELDS =====
-        tempPassword: tempPassword,
+        
         role: "student",
         admission_date: admissionDate,
         status: "pending",
         submittedAt: serverTimestamp()
       });
 
-      alert(
-`✅ Registration Submitted Successfully!
-
-📧 Login Email:
-${loginEmail}
-
-🔑 Temporary Password:
-${tempPassword}
-
-⚠️ Please save these credentials.
-
-You can login after admin approval.`
-      );
+    setShowSuccessCard(true);
 
       // Clear ALL form fields
       setFirstName("");
@@ -443,7 +429,17 @@ setForgotStep(4);
             <h1 className="form-view-title">REGISTER</h1>
             <p className="subtitle">Please provide your academic and guardian details.</p>
           </div>
-
+          {showSuccessCard && (
+  <div className="success-envelope">
+    <div className="envelope-icon">✉️</div>
+    <h3>Registration Submitted</h3>
+    <p>
+      Your registration has been submitted successfully.
+      <br />
+      Credentials will be sent after admin approval.
+    </p>
+  </div>
+)}
           <form onSubmit={handleRegister} className="scrolling-registration-panel minimalist-form-layout">
             
             {/* ===== STUDENT DETAILS SECTION ===== */}
