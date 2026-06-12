@@ -3,7 +3,7 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { auth, db } from "./firebase";
 import "./App.css";
-import SuccessCard from "./components/SuccessCard";
+//import SuccessCard from "./components/SuccessCard.jsx";
 
 function App() {
   const [formType, setFormType] = useState('login');
@@ -430,7 +430,7 @@ setForgotStep(4);
             <h1 className="form-view-title">REGISTER</h1>
             <p className="subtitle">Please provide your academic and guardian details.</p>
           </div>
-      {showSuccessCard && <SuccessCard />}
+      {/*showSuccessCard && <SuccessCard />*/}
           <form onSubmit={handleRegister} className="scrolling-registration-panel minimalist-form-layout">
             
             {/* ===== STUDENT DETAILS SECTION ===== */}
